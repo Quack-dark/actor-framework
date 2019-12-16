@@ -140,4 +140,12 @@ empty_type_erased_tuple::save(size_t, binary_serializer&) const {
   CAF_RAISE_ERROR("empty_type_erased_tuple::save");
 }
 
+error inspect(serializer& f, const type_erased_tuple& x) {
+  return x.save(f);
+}
+
+error inspect(deserializer& f, type_erased_tuple& x) {
+  return x.load(f);
+}
+
 } // namespace caf

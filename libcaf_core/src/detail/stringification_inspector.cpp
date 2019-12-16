@@ -62,12 +62,6 @@ void stringification_inspector::sep() {
     }
 }
 
-void stringification_inspector::consume(atom_value x) {
-  result_ += '\'';
-  result_ += to_string(x);
-  result_ += '\'';
-}
-
 void stringification_inspector::consume(string_view str) {
   if (str.empty()) {
     result_ += R"("")";

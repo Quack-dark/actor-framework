@@ -11,11 +11,23 @@ namespace {
 using pop_atom = atom_constant<atom("pop")>;
 using push_atom = atom_constant<atom("push")>;
 
-enum class fixed_stack_errc : uint8_t { push_to_full = 1, pop_from_empty };
+enum class fixed_stack_errc : uint8_t {
+  push_to_full = 1,
+  pop_from_empty,
+};
 
-error make_error(fixed_stack_errc x) {
-  return error{static_cast<uint8_t>(x), atom("FixedStack")};
-}
+} // namespace
+
+namespace caf {
+
+template <>
+struct error_category<fixed_stack_errc> {
+  static constexpr uint8_t value = 100;
+};
+
+} // namespace caf
+
+namespace {
 
 class fixed_stack : public event_based_actor {
 public:

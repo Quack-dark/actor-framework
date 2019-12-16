@@ -21,7 +21,6 @@
 #include <tuple>
 #include <type_traits>
 
-#include "caf/atom.hpp"
 #include "caf/detail/apply_args.hpp"
 #include "caf/detail/core_export.hpp"
 #include "caf/detail/int_list.hpp"

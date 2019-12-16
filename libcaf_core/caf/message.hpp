@@ -22,7 +22,6 @@
 #include <tuple>
 #include <type_traits>
 
-#include "caf/atom.hpp"
 #include "caf/config.hpp"
 #include "caf/detail/apply_args.hpp"
 #include "caf/detail/comparable.hpp"

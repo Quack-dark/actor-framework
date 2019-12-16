@@ -17,12 +17,21 @@ using namespace caf;
 namespace {
 
 enum class math_error : uint8_t {
-  division_by_zero = 1
+  division_by_zero = 1,
 };
 
-error make_error(math_error x) {
-  return {static_cast<uint8_t>(x), atom("math")};
-}
+} // namespace
+
+namespace caf {
+
+template <>
+struct error_category<math_error> {
+  static constexpr uint8_t value = 101;
+};
+
+} // namespace caf
+
+namespace {
 
 std::string to_string(math_error x) {
   switch (x) {

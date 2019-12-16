@@ -105,7 +105,7 @@ size_t node_id::default_data::hash_code() const noexcept {
   return x ^ y;
 }
 
-atom_value node_id::default_data::implementation_id() const noexcept {
+uint8_t node_id::default_data::implementation_id() const noexcept {
   return class_id;
 }
 
@@ -162,7 +162,7 @@ size_t node_id::uri_data::hash_code() const noexcept {
   return f(value_);
 }
 
-atom_value node_id::uri_data::implementation_id() const noexcept {
+uint8_t node_id::uri_data::implementation_id() const noexcept {
   return class_id;
 }
 
@@ -243,7 +243,7 @@ auto serialize_data(Serializer& sink, const intrusive_ptr<node_id::data>& ptr) {
 template <class Deserializer>
 auto deserialize_data(Deserializer& source, intrusive_ptr<node_id::data>& ptr) {
   using result_type = typename Deserializer::result_type;
-  auto impl = static_cast<atom_value>(0);
+  uint8_t impl = 0;
   if (auto err = source(impl))
     return err;
   if (impl == atom("")) {

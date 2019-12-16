@@ -27,6 +27,7 @@
 #include "caf/detail/core_export.hpp"
 #include "caf/detail/pseudo_tuple.hpp"
 #include "caf/detail/try_match.hpp"
+#include "caf/error_code.hpp"
 #include "caf/fwd.hpp"
 #include "caf/optional.hpp"
 #include "caf/rtti_pair.hpp"
@@ -179,7 +180,7 @@ public:
   bool match_element(size_t pos) const noexcept {
     CAF_ASSERT(pos < size());
     auto x = detail::meta_element_factory<T>::create();
-    return x.fun(x, *this, pos);
+    return matches(pos, x.typenr, x.type);
   }
 
   /// Returns `true` if the pattern `Ts...` matches the content of this tuple.
@@ -231,18 +232,14 @@ private:
 };
 
 /// @relates type_erased_tuple
-inline auto inspect(serializer& sink, const type_erased_tuple& x) {
-  return x.save(sink);
-}
+CAF_CORE_EXPORT error inspect(serializer& sink, const type_erased_tuple& x);
+
+/// @relates type_erased_tuple
+CAF_CORE_EXPORT error inspect(deserializer& source, type_erased_tuple& x);
 
 /// @relates type_erased_tuple
 inline auto inspect(binary_serializer& sink, const type_erased_tuple& x) {
   return x.save(sink);
-}
-
-/// @relates type_erased_tuple
-inline auto inspect(deserializer& source, type_erased_tuple& x) {
-  return x.load(source);
 }
 
 /// @relates type_erased_tuple

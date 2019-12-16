@@ -114,13 +114,6 @@ CAF_TEST(parse with ref syncing) {
   CAF_CHECK_EQUAL(get<int>(cfg, "foo.i"), 42);
 }
 
-CAF_TEST(atom parameters) {
-  opts.add<atom_value>("value,v", "some value");
-  CAF_CHECK_EQUAL(read<atom_value>({"-v", "foobar"}), atom("foobar"));
-  CAF_CHECK_EQUAL(read<atom_value>({"-vfoobar"}), atom("foobar"));
-  CAF_CHECK_EQUAL(read<atom_value>({"--value=foobar"}), atom("foobar"));
-}
-
 CAF_TEST(string parameters) {
   opts.add<std::string>("value,v", "some value");
   CAF_MESSAGE("test string option with and without quotes");

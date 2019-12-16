@@ -161,7 +161,7 @@ public:
   /// The type of a single tick.
   using time_point = clock_type::time_point;
 
-  /// Difference between two points in time.
+  /// A time interval in the resolution of the actor clock.
   using duration_type = time_point::duration;
 
   /// The type of a single tick.
@@ -550,8 +550,7 @@ struct fixture {
         alice(fetch(alice_hdl)),
         bob(fetch(bob_hdl)),
         carl(fetch(carl_hdl)) {
-    // Configure the clock to measure each batch item with 1us.
-    sched.clock().time_per_unit.emplace(atom("batch"), timespan{1000});
+    // nop
   }
 
   ~fixture() {
