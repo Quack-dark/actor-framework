@@ -114,7 +114,7 @@ int node_id::default_data::compare(const data& other) const noexcept {
     return 0;
   auto other_id = other.implementation_id();
   if (class_id != other_id)
-    return caf::compare(class_id, other_id);
+    return class_id < other_id ? -1 : 1;
   auto& x = static_cast<const default_data&>(other);
   if (pid_ != x.pid_)
     return pid_ < x.pid_ ? -1 : 1;
@@ -171,7 +171,7 @@ int node_id::uri_data::compare(const data& other) const noexcept {
     return 0;
   auto other_id = other.implementation_id();
   if (class_id != other_id)
-    return caf::compare(class_id, other_id);
+    return class_id < other_id ? -1 : 1;
   return value_.compare(static_cast<const uri_data&>(other).value_);
 }
 
@@ -237,7 +237,8 @@ auto serialize_data(Serializer& sink, const intrusive_ptr<node_id::data>& ptr) {
       return err;
     return ptr->serialize(sink);
   }
-  return sink(atom(""));
+  uint8_t zero = 0;
+  return sink(zero);
 }
 
 template <class Deserializer>
@@ -246,7 +247,7 @@ auto deserialize_data(Deserializer& source, intrusive_ptr<node_id::data>& ptr) {
   uint8_t impl = 0;
   if (auto err = source(impl))
     return err;
-  if (impl == atom("")) {
+  if (impl == 0) {
     ptr.reset();
     return result_type{};
   }

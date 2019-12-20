@@ -107,6 +107,7 @@
 #include "caf/thread_hook.hpp"
 #include "caf/timeout_definition.hpp"
 #include "caf/to_string.hpp"
+#include "caf/type_nr.hpp"
 #include "caf/typed_actor.hpp"
 #include "caf/typed_actor_pointer.hpp"
 #include "caf/typed_actor_view.hpp"

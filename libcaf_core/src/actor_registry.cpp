@@ -128,7 +128,7 @@ void actor_registry::await_running_count_equal(size_t expected) const {
   }
 }
 
-strong_actor_ptr actor_registry::get_impl(string_view key) const {
+strong_actor_ptr actor_registry::get_impl(const std::string& key) const {
   shared_guard guard{named_entries_mtx_};
   auto i = named_entries_.find(key);
   if (i == named_entries_.end())
@@ -136,7 +136,7 @@ strong_actor_ptr actor_registry::get_impl(string_view key) const {
   return i->second;
 }
 
-void actor_registry::put_impl(std::string key, strong_actor_ptr value) {
+void actor_registry::put_impl(const std::string& key, strong_actor_ptr value) {
   if (value == nullptr) {
     erase(key);
     return;
@@ -145,7 +145,7 @@ void actor_registry::put_impl(std::string key, strong_actor_ptr value) {
   named_entries_.emplace(std::move(key), std::move(value));
 }
 
-void actor_registry::erase(string_view key) {
+void actor_registry::erase(const std::string& key) {
   // Stores a reference to the actor we're going to remove for the same
   // reasoning as in erase(actor_id).
   strong_actor_ptr ref;

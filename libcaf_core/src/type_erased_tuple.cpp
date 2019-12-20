@@ -22,8 +22,6 @@
 #include "caf/error.hpp"
 #include "caf/raise_error.hpp"
 
-#include "caf/detail/try_match.hpp"
-
 namespace caf {
 
 type_erased_tuple::~type_erased_tuple() {
@@ -109,10 +107,6 @@ error_code<sec> empty_type_erased_tuple::load(size_t, binary_deserializer&) {
 
 size_t empty_type_erased_tuple::size() const noexcept {
   return 0;
-}
-
-uint32_t empty_type_erased_tuple::type_token() const noexcept {
-  return make_type_token();
 }
 
 auto empty_type_erased_tuple::type(size_t) const noexcept -> rtti_pair {

@@ -425,7 +425,7 @@ CAF_CORE_EXPORT const settings& content(const actor_system_config& cfg);
 /// Tries to retrieve the value associated to `name` from `cfg`.
 /// @relates actor_system_config
 template <class T>
-optional<T> get_if(const actor_system_config* cfg, string_view name) {
+auto get_if(const actor_system_config* cfg, string_view name) {
   return get_if<T>(&content(*cfg), name);
 }
 

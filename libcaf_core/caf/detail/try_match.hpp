@@ -59,7 +59,4 @@ struct meta_elements<type_list<Ts...>> {
   }
 };
 
-CAF_CORE_EXPORT bool
-try_match(const type_erased_tuple& xs, const meta_element* iter, size_t ps);
-
 } // namespace caf::detail

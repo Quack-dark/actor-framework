@@ -412,8 +412,7 @@ struct msg_visitor {
 
   result_type operator()(normal_async_id, entity::normal_queue&,
                          mailbox_element& x) {
-    CAF_REQUIRE_EQUAL(x.content().type_token(),
-                      make_type_token<open_stream_msg>());
+    CAF_REQUIRE(x.content().match_elements<open_stream_msg>());
     self->current_mailbox_element(&x);
     (*self)(x.content().get_mutable_as<open_stream_msg>(0));
     self->current_mailbox_element(nullptr);
@@ -421,7 +420,7 @@ struct msg_visitor {
   }
 
   result_type operator()(umsg_id, entity::upstream_queue&, mailbox_element& x) {
-    CAF_REQUIRE(x.content().type_token() == make_type_token<upstream_msg>());
+    CAF_REQUIRE(x.content().match_elements<upstream_msg>());
     self->current_mailbox_element(&x);
     auto& um = x.content().get_mutable_as<upstream_msg>(0);
     auto f = detail::make_overload(
@@ -446,7 +445,7 @@ struct msg_visitor {
   result_type operator()(dmsg_id, entity::downstream_queue& qs, stream_slot,
                          policy::downstream_messages::nested_queue_type& q,
                          mailbox_element& x) {
-    CAF_REQUIRE(x.content().type_token() == make_type_token<downstream_msg>());
+    CAF_REQUIRE(x.content().match_elements<downstream_msg>());
     self->current_mailbox_element(&x);
     auto inptr = q.policy().handler.get();
     if (inptr == nullptr)
@@ -537,7 +536,7 @@ struct fixture {
     if (auto err = cfg.parse(caf::test::engine::argc(),
                              caf::test::engine::argv()))
       CAF_FAIL("parsing the config failed: " << to_string(err));
-    cfg.set("scheduler.policy", caf::atom("testing"));
+    cfg.set("scheduler.policy", "testing");
     return cfg;
   }
 

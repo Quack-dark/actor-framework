@@ -183,9 +183,9 @@ CAF_TEST(lists) {
 
 CAF_TEST(maps) {
   using int_map = std::map<std::string, int>;
-  CAF_CHECK_EQUAL(read<int_map>(R"(a=1, "b" = 42))"),
+  CAF_CHECK_EQUAL(read<int_map>(R"(a=1, "b" = 42)"),
                   int_map({{"a", 1}, {"b", 42}}));
-  CAF_CHECK_EQUAL(read<int_map>(R"({   a  = 1  , 'b'   =    42   ,} )"),
+  CAF_CHECK_EQUAL(read<int_map>(R"({   a  = 1  , b   =    42   ,} )"),
                   int_map({{"a", 1}, {"b", 42}}));
 }
 

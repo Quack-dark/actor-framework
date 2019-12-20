@@ -33,7 +33,6 @@
 #include "caf/detail/core_export.hpp"
 #include "caf/detail/shared_spinlock.hpp"
 #include "caf/fwd.hpp"
-#include "caf/string_view.hpp"
 
 namespace caf {
 
@@ -80,20 +79,20 @@ public:
 
   /// Returns the actor associated with `key` or `invalid_actor`.
   template <class T = strong_actor_ptr>
-  T get(string_view key) const {
+  T get(const std::string& key) const {
     return actor_cast<T>(get_impl(key));
   }
 
   /// Associates given actor to `key`.
   template <class T>
-  void put(std::string key, const T& value) {
+  void put(const std::string& key, const T& value) {
     // using reference here and before to allow putting a scoped_actor without
     // calling .ptr()
     put_impl(std::move(key), actor_cast<strong_actor_ptr>(value));
   }
 
   /// Removes a name mapping.
-  void erase(string_view key);
+  void erase(const std::string& key);
 
   using name_map = std::unordered_map<std::string, strong_actor_ptr>;
 
@@ -113,10 +112,10 @@ private:
   void put_impl(actor_id key, strong_actor_ptr val);
 
   /// Returns the actor associated with `key` or `invalid_actor`.
-  strong_actor_ptr get_impl(string_view key) const;
+  strong_actor_ptr get_impl(const std::string& key) const;
 
   /// Associates given actor to `key`.
-  void put_impl(std::string key, strong_actor_ptr value);
+  void put_impl(const std::string& key, strong_actor_ptr value);
 
   using entries = std::unordered_map<actor_id, strong_actor_ptr>;
 

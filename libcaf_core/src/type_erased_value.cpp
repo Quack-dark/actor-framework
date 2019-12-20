@@ -18,6 +18,8 @@
 
 #include "caf/type_erased_value.hpp"
 
+#include "caf/error.hpp"
+
 namespace caf {
 
 type_erased_value::~type_erased_value() {

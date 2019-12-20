@@ -44,8 +44,11 @@
 
 namespace caf {
 
-/// Used for request operations.
+/// Signals the receiver to add the operands to the current value.
 CAF_MSG_TYPE_ADD_ATOM(add_atom);
+
+/// Signals the receiver to subtract the operands from the current value.
+CAF_MSG_TYPE_ADD_ATOM(sub_atom);
 
 /// Used for request operations.
 CAF_MSG_TYPE_ADD_ATOM(get_atom);
@@ -146,6 +149,21 @@ CAF_MSG_TYPE_ADD_ATOM(stream_atom);
 /// Used to implement blocking_actor::wait_for.
 CAF_MSG_TYPE_ADD_ATOM(wait_for_atom);
 
+/// Can be used for testing or roundtrip time measurements in conjunction with
+/// `pong_atom`.`
+CAF_MSG_TYPE_ADD_ATOM(ping_atom);
+
+/// Can be used for testing or roundtrip time measurements in conjunction with
+/// `ping_atom`.`
+/// Used to implement blocking_actor::wait_for.
+CAF_MSG_TYPE_ADD_ATOM(pong_atom);
+
+/// Signals that a timer elapsed.
+CAF_MSG_TYPE_ADD_ATOM(timeout_atom);
+
+/// Requests to reset a timeout or resource.
+CAF_MSG_TYPE_ADD_ATOM(reset_atom);
+
 /// Compile-time list of all built-in types.
 /// @warning Types are sorted by uniform name.
 using sorted_builtin_types = detail::type_list< // uniform_type_info_map name:
@@ -220,6 +238,8 @@ using sorted_builtin_types = detail::type_list< // uniform_type_info_map name:
   migrate_atom,                                 // caf::migrate_atom
   tick_atom,                                    // caf::tick_atom
   pending_atom,                                 // caf::pending_atom
+  ping_atom,                                    // caf::ping_atom
+  pong_atom,                                    // caf::pong_atom
   receive_atom,                                 // caf::receive_atom
   stream_atom,                                  // caf::stream_atom
   wait_for_atom,                                // caf::wait_for_atom
@@ -254,40 +274,7 @@ static constexpr size_t type_nrs
 /// List of all type names, indexed via `type_nr`.
 CAF_CORE_EXPORT extern const char* numbered_type_names[];
 
-template <uint32_t R, uint16_t... Is>
-struct type_token_helper;
-
-template <uint32_t R>
-struct type_token_helper<R> : std::integral_constant<uint32_t, R> {
-  // nop
-};
-
-template <uint32_t R, uint16_t I, uint16_t... Is>
-struct type_token_helper<R, I, Is...> : type_token_helper<(R << 6) | I, Is...> {
-  // nop
-};
-
-template <class... Ts>
-constexpr uint32_t make_type_token() {
-  return type_token_helper<0xFFFFFFFF, type_nr<Ts>::value...>::value;
-}
-
-constexpr uint32_t add_to_type_token(uint32_t token, uint16_t tnr) {
-  return (token << 6) | tnr;
-}
-
 template <class T>
-struct make_type_token_from_list_helper;
-
-template <class... Ts>
-struct make_type_token_from_list_helper<detail::type_list<Ts...>>
-  : type_token_helper<0xFFFFFFFF, type_nr<Ts>::value...> {
-  // nop
-};
-
-template <class T>
-constexpr uint32_t make_type_token_from_list() {
-  return make_type_token_from_list_helper<T>::value;
-}
+constexpr uint16_t type_nr_v = type_nr<T>::value;
 
 } // namespace caf

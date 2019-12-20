@@ -21,8 +21,6 @@
 #include <algorithm>
 #include <ctime>
 
-#include "caf/atom.hpp"
-
 namespace {
 
 void escape(std::string& result, char c) {

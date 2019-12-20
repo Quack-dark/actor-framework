@@ -123,12 +123,12 @@ CAF_TEST(parsing - with CLI cfg.remainder) {
 #define CHECK_SYNCED(var, value)                                               \
   do {                                                                         \
     CAF_CHECK_EQUAL(var, value);                                               \
-    CAF_CHECK_EQUAL(get_if<decltype(var)>(&cfg, #var), value);                 \
+    CAF_CHECK_EQUAL(get<decltype(var)>(cfg, #var), value);                     \
   } while (false)
 
 // Checks whether an entry in content(cfg) is equal to `value`.
 #define CHECK_TEXT_ONLY(type, var, value)                                      \
-  CAF_CHECK_EQUAL(get_if<type>(&cfg, #var), value)
+  CAF_CHECK_EQUAL(get<type>(cfg, #var), value)
 
 #define ADD(var) add(var, #var, "...")
 

@@ -85,7 +85,6 @@ set(CAF_CORE_SOURCES
   src/detail/test_actor_clock.cpp
   src/detail/thread_safe_actor_clock.cpp
   src/detail/tick_emitter.cpp
-  src/detail/try_match.cpp
   src/detail/uri_impl.cpp
   src/downstream_manager.cpp
   src/downstream_manager_base.cpp
@@ -249,7 +248,6 @@ set(CAF_CORE_TEST_SOURCES
   test/result.cpp
   test/rtti_pair.cpp
   test/selective_streaming.cpp
-  test/serial_reply.cpp
   test/serialization.cpp
   test/settings.cpp
   test/simple_timeout.cpp

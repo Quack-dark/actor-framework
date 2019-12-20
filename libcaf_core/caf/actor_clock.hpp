@@ -19,6 +19,7 @@
 #pragma once
 
 #include <chrono>
+#include <string>
 
 #include "caf/detail/core_export.hpp"
 #include "caf/fwd.hpp"
@@ -65,7 +66,7 @@ public:
     = 0;
 
   /// Cancels a pending receive timeout.
-  virtual void cancel_ordinary_timeout(abstract_actor* self, string_view type)
+  virtual void cancel_ordinary_timeout(abstract_actor* self, std::string type)
     = 0;
 
   /// Cancels the pending request timeout for `id`.

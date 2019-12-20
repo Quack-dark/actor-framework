@@ -24,7 +24,6 @@
 
 #include "caf/actor_system.hpp"
 #include "caf/actor_system_config.hpp"
-#include "caf/atom.hpp"
 #include "caf/event_based_actor.hpp"
 #include "caf/scoped_actor.hpp"
 
@@ -49,8 +48,11 @@ CAF_TEST(unit_results) {
   actor_system sys{cfg};
   scoped_actor self{sys};
   auto aut = sys.spawn(testee);
-  atom_value as[]
-    = {add_atom_v, get_atom_v, put_atom_v, resolve_atom_v, update_atom_v};
+  message as[] = {
+    make_message(add_atom_v),    make_message(get_atom_v),
+    make_message(put_atom_v),    make_message(resolve_atom_v),
+    make_message(update_atom_v),
+  };
   for (auto a : as) {
     self->request(aut, infinite, a)
       .receive(

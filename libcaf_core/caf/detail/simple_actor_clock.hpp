@@ -286,7 +286,7 @@ public:
   void set_request_timeout(time_point t, abstract_actor* self,
                            message_id id) override;
 
-  void cancel_ordinary_timeout(abstract_actor* self, string_view type) override;
+  void cancel_ordinary_timeout(abstract_actor* self, std::string type) override;
 
   void cancel_request_timeout(abstract_actor* self, message_id id) override;
 

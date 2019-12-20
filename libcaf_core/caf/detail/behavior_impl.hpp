@@ -173,7 +173,7 @@ private:
   void init(std::integral_constant<size_t, First>,
             std::integral_constant<size_t, Last> last) {
     auto& element = std::get<First>(cases_);
-    arr_[First] = match_case_info{element.type_token(), &element};
+    arr_[First] = match_case_info{&element};
     init(std::integral_constant<size_t, First + 1>{}, last);
   }
 

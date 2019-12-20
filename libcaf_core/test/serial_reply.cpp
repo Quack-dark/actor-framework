@@ -24,18 +24,6 @@
 
 using namespace caf;
 
-namespace {
-
-using hi_atom = atom_constant<atom("hi")>;
-using ho_atom = atom_constant<atom("ho")>;
-using sub0_atom = atom_constant<atom("sub0")>;
-using sub1_atom = atom_constant<atom("sub1")>;
-using sub2_atom = atom_constant<atom("sub2")>;
-using sub3_atom = atom_constant<atom("sub3")>;
-using sub4_atom = atom_constant<atom("sub4")>;
-
-} // namespace
-
 CAF_TEST(test_serial_reply) {
   actor_system_config cfg;
   actor_system system{cfg};
@@ -56,7 +44,7 @@ CAF_TEST(test_serial_reply) {
     auto c3 = self->spawn<linked>(mirror_behavior);
     auto c4 = self->spawn<linked>(mirror_behavior);
     self->become (
-      [=](hi_atom) mutable {
+      [=](int) mutable {
         auto rp = self->make_response_promise();
         CAF_MESSAGE("received 'hi there'");
         self->request(c0, infinite, sub0_atom::value).then(

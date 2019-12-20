@@ -189,7 +189,10 @@ CAF_TEST(homogeneous dictionary) {
     {"value-4", 4},
   };
   config_value xs_cv{xs};
-  CAF_CHECK_EQUAL(get_if<int64_t>(&xs, "value-1"), int64_t{100000});
+  if (auto val = get_if<int64_t>(&xs, "value-1"))
+    CAF_CHECK_EQUAL(*val, int64_t{100000});
+  else
+    CAF_FAIL("value-1 not an int64_t");
   CAF_CHECK_EQUAL(get_if<int32_t>(&xs, "value-1"), int32_t{100000});
   CAF_CHECK_EQUAL(get_if<int16_t>(&xs, "value-1"), none);
   CAF_CHECK_EQUAL(get<int64_t>(xs, "value-1"), 100000);
@@ -213,7 +216,7 @@ CAF_TEST(heterogeneous dictionary) {
               .make();
   CAF_CHECK_EQUAL(get<string>(xs, "scheduler.policy"), "none");
   CAF_CHECK_EQUAL(get<int64_t>(xs, "scheduler.max-threads"), 2);
-  CAF_CHECK_EQUAL(get_if<double>(&xs, "scheduler.max-threads"), none);
+  CAF_CHECK_EQUAL(get_if<double>(&xs, "scheduler.max-threads"), nullptr);
   string_list nodes{"sun", "venus", "mercury", "earth", "mars"};
   CAF_CHECK_EQUAL(get<string_list>(xs, "nodes.preload"), nodes);
 }

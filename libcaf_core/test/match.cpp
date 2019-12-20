@@ -56,8 +56,6 @@ struct fixture {
     auto msg3 = make_type_erased_tuple_view(xs...);
     CAF_CHECK_EQUAL(to_string(msg1), to_string(msg2));
     CAF_CHECK_EQUAL(to_string(msg1), to_string(msg3));
-    CAF_CHECK_EQUAL(msg1.type_token(), msg2.type_token());
-    CAF_CHECK_EQUAL(msg1.type_token(), msg3.type_token());
     std::vector<std::string> msg1_types;
     std::vector<std::string> msg2_types;
     std::vector<std::string> msg3_types;

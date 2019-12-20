@@ -244,7 +244,8 @@ inline bool operator==(none_t, const error& x) {
 /// @relates error
 template <class Enum, uint8_t Category = error_category<Enum>::value>
 bool operator==(const error& x, Enum y) {
-  return x && x.category() == Category && x.code() == static_cast<uint8_t>(y);
+  auto code = static_cast<uint8_t>(y);
+  return code == 0 ? !x : x && x.category() == Category && x.code() == code;
 }
 
 /// @relates error

@@ -26,6 +26,7 @@
 #include "caf/test/dsl.hpp"
 
 #include "caf/config_option_set.hpp"
+#include "caf/detail/move_if_not_ptr.hpp"
 #include "caf/settings.hpp"
 
 using std::string;
@@ -44,10 +45,9 @@ struct fixture {
     auto res = opts.parse(cfg, std::move(args));
     if (res.first != pec::success)
       return res.first;
-    auto x = get_if<T>(&cfg, key);
-    if (x == none)
-      return sec::invalid_argument;
-    return *x;
+    if (auto x = get_if<T>(&cfg, key))
+      return detail::move_if_not_ptr(x);
+    return sec::invalid_argument;
   }
 
   std::string key = "value";

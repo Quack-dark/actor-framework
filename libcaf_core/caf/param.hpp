@@ -20,6 +20,8 @@
 
 #include <type_traits>
 
+#include "caf/fwd.hpp"
+
 namespace caf {
 
 /// Represents a message handler parameter of type `T` and
